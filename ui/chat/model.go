@@ -82,7 +82,11 @@ func (m *Model) ensureClient() error {
 		return err
 	}
 	m.client = c
-	m.model = c.GenerativeModel("gemini-pro")
+	modelName := os.Getenv("GEMINI_MODEL")
+	if modelName == "" {
+		modelName = "gemini-1.5-flash-002" // Latest stable flash
+	}
+	m.model = c.GenerativeModel(modelName)
 	m.model.Tools = tools
 	m.chatSession = m.model.StartChat()
 	m.initialized = true
