@@ -3,6 +3,7 @@ package ui
 import (
 	"strings"
 
+	"termiflow/ui/chat"
 	"termiflow/ui/github"
 	"termiflow/ui/jira"
 	"termiflow/ui/shell"
@@ -17,6 +18,7 @@ const (
 	viewShell sessionState = iota
 	viewJira
 	viewGitHub
+	viewChat
 )
 
 var (
@@ -47,19 +49,21 @@ type Model struct {
 	shell  shell.Model
 	jira   jira.Model
 	github github.Model
+	chat   chat.Model
 
 	width  int
 	height int
 }
 
 func New() Model {
-	tabs := []string{"Shell", "Jira", "GitHub"}
+	tabs := []string{"Shell", "Jira", "GitHub", "Chat"}
 	return Model{
 		state:  viewShell,
 		tabs:   tabs,
 		shell:  shell.New(),
 		jira:   jira.New(),
 		github: github.New(),
+		chat:   chat.New(),
 	}
 }
 
@@ -68,6 +72,7 @@ func (m Model) Init() tea.Cmd {
 		m.shell.Init(),
 		m.jira.Init(),
 		m.github.Init(),
+		m.chat.Init(),
 	)
 }
 
@@ -95,6 +100,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		// Update Jira and Github list sizes
 		m.jira.SetSize(msg.Width, contentHeight)
 		m.github.SetSize(msg.Width, contentHeight)
+		m.chat.SetSize(msg.Width, contentHeight)
 
 		// Shell handles its own sizing in Update usually, but let's pass it if needed
 		// For now shell Update handles WindowSizeMsg directly
@@ -110,6 +116,9 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		cmds = append(cmds, cmd)
 	case viewGitHub:
 		m.github, cmd = m.github.Update(msg)
+		cmds = append(cmds, cmd)
+	case viewChat:
+		m.chat, cmd = m.chat.Update(msg)
 		cmds = append(cmds, cmd)
 	}
 
@@ -143,6 +152,8 @@ func (m Model) View() string {
 		doc.WriteString(m.jira.View())
 	case viewGitHub:
 		doc.WriteString(m.github.View())
+	case viewChat:
+		doc.WriteString(m.chat.View())
 	}
 
 	return docStyle.Render(doc.String())

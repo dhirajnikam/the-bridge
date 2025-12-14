@@ -9,6 +9,7 @@ Built with **Go** and **Bubble Tea**, it integrates your local shell, Jira tasks
 *   **🖥️ Integrated Shell**: A persistent local terminal environment. Execute commands, navigate directories (`cd`), and manage files without leaving the dashboard.
 *   **🐞 Jira Integration**: View and track your assigned Jira tickets in real-time.
 *   **🐙 GitHub Integration**: Monitor issues and pull requests for your repositories.
+*   **🤖 Chat Integration**: Integrated **Google Gemini** AI for quick answers and assistance directly in your terminal.
 *   **⌨️ Keyboard Driven**: Efficient tab-based navigation (`Tab` to switch views).
 *   **🎨 Modern UI**: Beautifully styled with `Lipgloss` for a premium terminal experience.
 
@@ -41,6 +42,8 @@ To unlock the full power of The Bridge, you need to set a few environment variab
 | `JIRA_URL` | Your Jira instance URL | `https://your-domain.atlassian.net` |
 | `JIRA_EMAIL` | Email address for Jira account | `user@example.com` |
 | `JIRA_TOKEN` | Jira API Token | `ATATT3...` |
+| **Gemini** | | |
+| `GEMINI_API_KEY` | Google AI Studio API Key | `AIzaSy...` |
 
 **Quick Setup:**
 ```bash
